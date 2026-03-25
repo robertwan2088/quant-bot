@@ -1,0 +1,79 @@
+# 量化交易系统配置
+
+## 交易所配置
+exchange:
+  name: binance  # binance, bybit, okx
+  testnet: true  # 是否使用测试网
+  api_key: ""
+  api_secret: ""
+
+## 交易品种
+symbols:
+  - BTCUSDT
+  - ETHUSDT
+
+## 合约配置
+contract:
+  margin_type: USDT-M  # USDT-M 或 COIN-M
+  leverage: 10  # 杠杆倍数 1-125
+
+## 策略配置
+strategies:
+  # 趋势跟踪策略
+  trend_following:
+    enabled: true
+    params:
+      fast_ma_period: 10    # 快速均线周期
+      slow_ma_period: 50     # 慢速均线周期
+      rsi_period: 14        # RSI周期
+      rsi_overbought: 70    # RSI超买
+      rsi_oversold: 30      # RSI超卖
+      bb_period: 20         # 布林带周期
+      bb_std: 2             # 布林带标准差倍数
+
+  # 网格交易策略
+  grid_trading:
+    enabled: false
+    params:
+      grid_levels: 10       # 网格层数
+      price_range: 0.05     # 价格波动范围（5%）
+      grid_spacing: 0.005   # 网格间距（0.5%）
+      order_amount: 100     # 每格下单数量(USDT)
+
+  # 动量突破策略
+  momentum:
+    enabled: false
+    params:
+      atr_period: 14        # ATR周期
+      atr_multiplier: 2     # ATR倍数
+      volume_ma_period: 20  # 成交量均线周期
+      volume_threshold: 1.5 # 成交量倍数
+
+  # 资金费率套利
+  funding_arbitrage:
+    enabled: false
+    params:
+      min_funding_rate: 0.001  # 最小资金费率
+      rebalance_interval: 3600 # 重新平衡间隔(秒)
+
+## 风险管理
+risk:
+  max_position_pct: 0.3     # 最大持仓比例(30%)
+  max_daily_loss_pct: 0.05  # 单日最大亏损(5%)
+  stop_loss_pct: 0.02       # 止损比例(2%)
+  take_profit_pct: 0.04     # 止盈比例(4%)
+  max_open_orders: 10       # 最大挂单数
+  max_leverage: 50          # 最大杠杆
+
+## 通知配置
+notifications:
+  enabled: true
+  webhook_url: ""
+  signal_threshold: 0.8     # 信号强度阈值
+
+## 日志配置
+logging:
+  level: INFO
+  file: logs/trading.log
+  max_size: 100MB
+  backup_count: 5
